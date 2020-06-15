@@ -1,0 +1,51 @@
+{
+  "name": "intersec",
+  "version": "1.0.0",
+  "description": "Intersec Boilerplate",
+  "main": "app.js",
+  "author": "Fauzanw @dominic404",
+  "license": "MIT",
+  "scripts": {
+    "ts:build": "rm -rf dist/ && tsc -w",
+    "dev": "nodemon ./dist/app.js"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/bluebird": "^3.5.29",
+    "@types/compression": "^1.0.1",
+    "@types/continuation-local-storage": "^3.2.2",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.2",
+    "@types/helmet": "^0.0.45",
+    "@types/lodash": "^4.14.149",
+    "@types/md5": "^2.1.33",
+    "@types/morgan": "^1.7.37",
+    "@types/node": "^13.5.3",
+    "@types/redis": "^2.8.22",
+    "@types/sha1": "^1.1.2",
+    "@types/validator": "^12.0.1",
+    "commander": "^4.1.1",
+    "morgan": "^1.9.1",
+    "shell_exec": "^1.0.3",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.3.7",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "continuation-local-storage": "^3.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.2.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "redis": "^3.0.2",
+    "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.5.1",
+    "sha1": "^1.1.1"
+  }
+}

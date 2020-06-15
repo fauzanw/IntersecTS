@@ -1,0 +1,29 @@
+const program = require('commander');
+const exec        = require('shell_exec').shell_exec;
+
+program
+      .command('run:serve')
+      .description('Run intersec development server')
+      .option('-r, --recompile', 'Recompile typescript syntax to javascript code', 'true')
+      .action((args) => {
+            let { recompile } = args;
+            if(recompile == 'true') {
+                  console.log(`Recompiling typescript code...`)
+                  exec('tsc')
+                  console.log(`Typescript code recompiled successfully`)
+            }
+            console.log('Starting Intersec development server...')
+            setTimeout(() => {
+                  console.clear();
+                  require('./dist/app.js');
+            }, 1000);
+      })
+
+if(!process.argv.slice(2).length) {
+      program.outputHelp();
+      return;
+}
+
+program.version('v0.1', '-v, --version', 'show the current glueware version');
+
+program.parse(process.argv)
