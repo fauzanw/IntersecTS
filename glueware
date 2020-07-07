@@ -1,5 +1,6 @@
 const program = require('commander');
-const exec        = require('shell_exec').shell_exec;
+const exec    = require('shell_exec').shell_exec;
+const fs      = require('fs');
 
 program
       .command('run:serve')
@@ -19,11 +20,57 @@ program
             }, 1000);
       })
 
+program
+      .command('make:controller <name>')
+      .description('Create a new controller')
+      .action((name) => {
+            name = name.replace('Controller', '')
+            name = name.replace('controller', '');
+            name = name.replace('.ts', '');
+            name = `${name[0].toUpperCase()}${name.slice(1)}Controller`
+            if(fs.existsSync(`./app/Controllers/${name}.ts`)) {
+                  return console.log(`Controller with class name ${name} is already exist!`);
+            }
+
+            // Create a new controller
+            let readSampleController = fs.readFileSync('./samples/Controller.txt').toString();
+            readSampleController     = readSampleController.replace(/SampleController/gi, name)
+
+            
+            // Register Controller To IndexControler
+            let readFileIndex = fs.readFileSync('./app/Controllers/index.ts').toString();
+
+            // Import Controller to index controller
+            readFileIndex = readFileIndex.split('\n');
+            readFileIndex.unshift(`import ${name} from './${name}';`);
+            readFileIndex = readFileIndex.join("\n")
+
+            const data     = readFileIndex.match(/export\s*{\s*(.*?)\s*}/sim)[1]
+                                          .replace(/(\r\n+|\n+|\r+|\s+)/gm, "")
+                                          .split(",");
+            data.push(name);
+            let exportTemplate = "export {\n";
+            data.map((d, i) => (i == (data.length - 1)) ? exportTemplate += `     ${d}`:exportTemplate += `     ${d},\n`)
+            exportTemplate += "\n}"
+            readFileIndex = readFileIndex.replace(/export\s*{\s*(.*?)\s*}/sim, exportTemplate);
+
+            fs.writeFile(`./app/Controllers/${name}.ts`, readSampleController, err => {
+                  if(err) throw new Error(err);
+
+                  console.log(`[+] Success to create a new controller with name : ${name}`);
+            })
+
+            fs.writeFile('./app/Controllers/index.ts', readFileIndex, err => {
+                  if(err) throw new Error(err);
+            })
+            
+      })
+
 if(!process.argv.slice(2).length) {
       program.outputHelp();
       return;
 }
 
-program.version('v0.1', '-v, --version', 'show the current glueware version');
+program.version('v1.0 Beta', '-v, --version', 'show the current glueware version');
 
 program.parse(process.argv)

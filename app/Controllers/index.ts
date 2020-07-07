@@ -1,4 +1,5 @@
-import Coba from './Coba';
+import UserController from './UserController';
+
 export {
-    Coba
+     UserController
 }
